@@ -2,15 +2,15 @@
   <div
       class="row align-items-center text-start my-4 border border-rounded p-4"
       :class="{
-        'border-warning': task.status === 'PENDING',
-        'border-success': task.status === 'COMPLETED',
+        'border-warning': !isCompleted,
+        'border-success': isCompleted,
       }"
   >
     <span
         class="col-1 badge badge-lg"
         :class="{
-        'bg-warning': task.status === 'PENDING',
-        'bg-success': task.status === 'COMPLETED',
+        'bg-warning': !isCompleted,
+        'bg-success': isCompleted,
       }"
     >
       {{ task.time }} Hours
@@ -18,22 +18,22 @@
     <span class="col-6"> TODO: {{ task.title }} by {{ task.leader}}</span>
     <div class="col-5 d-flex justify-content-end ">
       <button
-        v-if="task.status === 'PENDING'"
+        v-if="!isCompleted"
         class="btn btn-success ml-auto"
-        @click="$emit('complete', task)"
+        @click="$emit('complete')"
       >
         Completed
       </button>
       <button
-        v-if="task.status === 'PENDING'"
+        v-if="!isCompleted"
         class="ms-4 btn btn-warning"
-        @click="$emit('edit', task)"
+        @click="$emit('editing')"
       >
         Edit
       </button>
       <button
         class="ms-4 btn btn-danger"
-        @click="$emit('delete', task)"
+        @click="$emit('delete')"
       >
         Delete
       </button>
@@ -45,6 +45,12 @@
 export default {
   props: {
     task: Object
+  },
+
+  computed: {
+    isCompleted() {
+      return this.task.status === 'COMPLETED'
+    }
   }
 }
 </script>

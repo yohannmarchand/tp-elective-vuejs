@@ -37,8 +37,8 @@
       <button
         v-if="isEdit"
         class="btn btn-warning w-100"
-        :disabled="!task.title || !task.leader || task.time < 1"
-        @click="$emit('edit', task)"
+        :disabled="!title || !leader || time < 1"
+        @click="edit"
       >
         Edit
       </button>
@@ -55,6 +55,8 @@
 </template>
 
 <script>
+import task from "./Task";
+
 export default {
   name: "TaskInput",
 
@@ -68,10 +70,29 @@ export default {
   },
 
   props: {
+    task: Object,
     isEdit: Boolean,
   },
 
+  watch: {
+    task() {
+      if (this.task) {
+        this.title = this.task.title
+        this.time = this.task.time
+        this.leader = this.task.leader
+      } else {
+        this.clear()
+      }
+    }
+  },
+
   methods: {
+    clear() {
+      this.time = 0
+      this.leader = null
+      this.title = null
+    },
+
     submit() {
       this.$emit('submit', {
         title: this.title,
@@ -79,6 +100,19 @@ export default {
         leader: this.leader,
         status: "PENDING"
       })
+
+      this.clear()
+    },
+
+    edit() {
+      this.$emit('edit', {
+        title: this.title,
+        time: this.time,
+        leader: this.leader,
+        status: this.task.status
+      })
+
+      this.clear()
     }
   }
 }
