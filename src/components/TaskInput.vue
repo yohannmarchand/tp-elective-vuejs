@@ -5,7 +5,7 @@
       <input
           class="form-control"
           type="text"
-          v-model="task.title"
+          v-model="title"
       >
     </div>
     <div class="col-3">
@@ -13,13 +13,13 @@
       <input
           class="form-control"
           type="number"
-          v-model="task.time"
+          v-model="time"
       >
     </div>
     <div class="col-3">
       <label>Leader</label>
       <select
-          v-model="task.leader"
+          v-model="leader"
           class="form-select"
           aria-label="Default select example"
       >
@@ -45,8 +45,8 @@
       <button
           v-else
           class="btn btn-success w-100"
-          :disabled="!task.title || !task.leader || task.time < 1"
-          @click="$emit('submit', task)"
+          :disabled="!title || !leader || time < 1"
+          @click="submit"
       >
         Create
       </button>
@@ -60,19 +60,25 @@ export default {
 
   data() {
     return {
+      title: null,
+      time: 0,
+      leader: null,
       leaders: ['Yohann', 'Lucas', 'Tom', 'Jean']
     }
   },
 
   props: {
     isEdit: Boolean,
-    task: {
-      type: Object,
-      default: {
-          title: null,
-          time: 0,
-          leader: null
-      },
+  },
+
+  methods: {
+    submit() {
+      this.$emit('submit', {
+        title: this.title,
+        time: this.time,
+        leader: this.leader,
+        status: "PENDING"
+      })
     }
   }
 }
