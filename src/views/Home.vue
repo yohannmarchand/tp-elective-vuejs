@@ -1,18 +1,30 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <h1 class="mt-4">TODO List</h1>
+    <TaskInput @submit="addTask"/>
+    <TaskList :tasks="tasks"/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import TaskList from "../components/TaskList";
+import TaskInput from "../components/TaskInput";
 export default {
-  name: 'Home',
   components: {
-    HelloWorld
+    TaskInput,
+    TaskList
+  },
+
+  data() {
+    return {
+      tasks: []
+    }
+  },
+
+  methods: {
+    addTask(task) {
+      this.tasks.push(task)
+    }
   }
 }
 </script>
