@@ -11,10 +11,6 @@
         :tasks="editingTask || tasks"
         @edit="toggleEdit"
     />
-
-    <div class="mt-4">
-      <h4>Nombre de tasks: {{ tasks.length }}</h4>
-    </div>
   </div>
 </template>
 
@@ -37,13 +33,12 @@ export default {
 
   methods: {
     addTask(task) {
+      task.id = this.tasks.length + 1
       this.tasks.push(task)
     },
 
     editTask(task) {
-      const index = this.tasks.indexOf( this.tasks.find(t => t.name === this.editingTask.name))
-
-      console.log(this.tasks.find(t => t.name === this.editingTask.name), index)
+      this.tasks[task.id - 1] = task
       //this.tasks[index + 1] = task
       this.toggleEdit(task)
     },

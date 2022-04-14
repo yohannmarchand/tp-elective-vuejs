@@ -5,6 +5,7 @@
         'border-warning': !isCompleted,
         'border-success': isCompleted,
       }"
+      @click="$emit('click')"
   >
     <span
         class="col-1 badge badge-lg"
@@ -20,20 +21,20 @@
       <button
         v-if="!isCompleted"
         class="btn btn-success ml-auto"
-        @click="$emit('complete')"
+        @click.stop="$emit('complete')"
       >
         Completed
       </button>
       <button
         v-if="!isCompleted"
         class="ms-4 btn btn-warning"
-        @click="$emit('editing')"
+        @click.stop="$emit('editing')"
       >
         Edit
       </button>
       <button
         class="ms-4 btn btn-danger"
-        @click="$emit('delete')"
+        @click.stop="$emit('delete')"
       >
         Delete
       </button>
