@@ -4,9 +4,8 @@
     <TaskInput
         :task="editingTask"
         :is-edit="!!editingTask"
-        @submit="addTask"
     />
-    <TaskList @edit="toggleEdit"/>
+    <TaskList />
   </div>
 </template>
 
@@ -33,28 +32,5 @@ export default {
       editingTask: 'editingTask'
     })
   },
-
-  methods: {
-    addTask(task) {
-      task.id = this.tasks.length + 1
-      this.tasks.push(task)
-    },
-
-    editTask(task) {
-      this.tasks[task.id - 1] = task
-      //this.tasks[index + 1] = task
-      this.toggleEdit(task)
-    },
-
-    toggleEdit(task) {
-      this.isEditing = !this.isEditing
-
-      if (this.isEditing) {
-        this.editingTask = [task]
-      } else {
-        this.editingTask = null
-      }
-    }
-  }
 }
 </script>

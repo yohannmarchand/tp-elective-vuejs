@@ -8,9 +8,9 @@
         v-for="task in tasks"
         :key="task.title"
         :class="{ 'bg-secondary': selectedTasks.find(t => t.id === task.id) }"
+        style="--bs-bg-opacity: .3;"
         :task="task"
-        @complete="completeTask(task)"
-        @click="addToSelected(task)"
+        @click="$store.commit('task/ADD_TO_SELECTED_TASK', task)"
       />
     </div>
 
@@ -22,7 +22,7 @@
       <button
         v-if="selectedTasks.length > 0"
         class="btn btn-danger mt-2"
-        @click="deleteSelectedTask"
+        @click="$store.commit('task/DELETE_SELECTED_TASK')"
       >
         Deleted {{ selectedTasks.length }} tash
       </button>
@@ -32,38 +32,17 @@
 
 <script>
 import Task from "./Task";
-import {mapState} from "vuex";
+
+import { mapState } from "vuex";
+
 export default {
   components: { Task },
 
-  data() {
-    return {
-      selectedTasks: [],
-    }
-  },
-
   computed: {
     ...mapState('task', {
-      tasks: 'tasks'
+      tasks: 'tasks',
+      selectedTasks: 'selectedTasks'
     }),
   },
-
-  methods: {
-    deleteSelectedTask() {
-      this.selectedTasks.forEach(task => {
-        this.deleteTask(task)
-      })
-
-      this.selectedTasks = []
-    },
-
-    addToSelected(task) {
-      if (!this.selectedTasks.find(t => t.id === task.id)) {
-        this.selectedTasks.push(task)
-      } else {
-        this.selectedTasks.splice(+task.index - 1, 1)
-      }
-    }
-  }
 }
 </script>

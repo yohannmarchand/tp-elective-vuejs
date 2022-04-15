@@ -4,18 +4,25 @@ export default {
   state: () => ({
     tasks: [],
     editingTask: null,
+    selectedTasks: []
   }),
-
-  getters: {
-    getTasksByID(state, id) {
-      return state.tasks.find(task => task.id === id)
-    }
-  },
 
   mutations: {
     ADD_TASK(state, task) {
       if (!state.tasks.find(t => t.title === task.title)) {
         state.tasks.push(task)
+      }
+    },
+
+    ADD_TO_SELECTED_TASK(state, task) {
+      if (!state.selectedTasks.find(t => t.title === task.title)) {
+        state.selectedTasks.push(task)
+      } else {
+        state.selectedTasks.forEach((t, index) => {
+          if (t.id === task. id) {
+            state.selectedTasks.splice(index, 1)
+          }
+        })
       }
     },
 
@@ -30,6 +37,18 @@ export default {
           state.editingTask = null
         }
       })
+    },
+
+    DELETE_SELECTED_TASK(state) {
+      state.selectedTasks.forEach(task => {
+        state.tasks.forEach((t, index) => {
+          if (t.id === task. id) {
+            state.tasks.splice(index, 1)
+          }
+        })
+      })
+
+      state.selectedTasks = []
     },
 
     DELETE_TASK(state, task) {
