@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import task from "./Task";
+import { v4 as uuidv4 } from 'uuid';
 
 export default {
   name: "TaskInput",
@@ -94,7 +94,8 @@ export default {
     },
 
     submit() {
-      this.$emit('submit', {
+      this.$store.commit('task/ADD_TASK', {
+        id: uuidv4(),
         title: this.title,
         time: this.time,
         leader: this.leader,
@@ -105,14 +106,13 @@ export default {
     },
 
     edit() {
-      this.$emit('edit', {
+      this.$store.commit('task/EDIT_TASK', {
+        id: this.task.id,
         title: this.title,
         time: this.time,
         leader: this.leader,
         status: this.task.status
       })
-
-      this.clear()
     }
   }
 }

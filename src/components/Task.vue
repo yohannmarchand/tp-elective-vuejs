@@ -21,20 +21,20 @@
       <button
         v-if="!isCompleted"
         class="btn btn-success ml-auto"
-        @click.stop="$emit('complete')"
+        @click.stop="task.status = 'COMPLETED'"
       >
         Completed
       </button>
       <button
         v-if="!isCompleted"
         class="ms-4 btn btn-warning"
-        @click.stop="$emit('editing')"
+        @click.stop="$store.commit('task/SET_EDITING_TASK', task)"
       >
         Edit
       </button>
       <button
         class="ms-4 btn btn-danger"
-        @click.stop="$emit('delete')"
+        @click.stop="$store.commit('task/DELETE_TASK', task)"
       >
         Delete
       </button>

@@ -2,21 +2,20 @@
   <div class="container">
     <h1 class="mt-4">TODO List</h1>
     <TaskInput
-        :task="editingTask && editingTask[0]"
-        :is-edit="isEditing"
+        :task="editingTask"
+        :is-edit="!!editingTask"
         @submit="addTask"
-        @edit="editTask"
     />
-    <TaskList
-        :tasks="editingTask || tasks"
-        @edit="toggleEdit"
-    />
+    <TaskList @edit="toggleEdit"/>
   </div>
 </template>
 
 <script>
+import {mapState} from "vuex";
+
 import TaskList from "../components/TaskList";
 import TaskInput from "../components/TaskInput";
+
 export default {
   components: {
     TaskInput,
@@ -25,10 +24,14 @@ export default {
 
   data() {
     return {
-      tasks: [],
       isEditing: false,
-      editingTask: null
     }
+  },
+
+  computed: {
+    ...mapState('task', {
+      editingTask: 'editingTask'
+    })
   },
 
   methods: {

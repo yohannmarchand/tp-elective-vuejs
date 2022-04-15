@@ -10,8 +10,6 @@
         :class="{ 'bg-secondary': selectedTasks.find(t => t.id === task.id) }"
         :task="task"
         @complete="completeTask(task)"
-        @delete="deleteTask(task)"
-        @editing="editTask(task)"
         @click="addToSelected(task)"
       />
     </div>
@@ -34,6 +32,7 @@
 
 <script>
 import Task from "./Task";
+import {mapState} from "vuex";
 export default {
   components: { Task },
 
@@ -43,24 +42,13 @@ export default {
     }
   },
 
-  props: {
-    tasks: Array
+  computed: {
+    ...mapState('task', {
+      tasks: 'tasks'
+    }),
   },
 
   methods: {
-    completeTask(task) {
-      task.status = 'COMPLETED'
-    },
-
-    editTask(task) {
-      this.$emit('edit', task)
-    },
-
-    deleteTask(task) {
-      const index = this.tasks.indexOf(task)
-      this.tasks.splice(index, 1)
-    },
-
     deleteSelectedTask() {
       this.selectedTasks.forEach(task => {
         this.deleteTask(task)
